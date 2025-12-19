@@ -1,0 +1,18 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: demo
+  namespace: kargo-demo
+spec:
+  freightCreationPolicy: Automatic
+  interval: 1m0s
+  subscriptions:
+    - git:
+        repoURL: https://github.com/jonas-werner/kargo-argocd-lab-demo-deploy.git
+        branch: main
+        commitSelectionStrategy: NewestFromBranch
+        discoveryLimit: 20
+        includePaths:
+          - apps/demo/overlays/prod
+
+

@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: demo-prod
+  namespace: argocd
+  annotations:
+    # Enables Kargo to be authorized to act on this Application.
+    # Format: <kargo-namespace>:<kargo-stage-name>
+    kargo.akuity.io/authorized-stage: kargo-demo:demo-prod
+spec:
+  project: default
+  destination:
+    name: in-cluster
+    namespace: demo
+  source:
+    repoURL: https://github.com/jonas-werner/kargo-argocd-lab-demo-deploy.git
+    # Start with main for bootstrapping. Once Kargo promotes the first time,
+    # it will update this to a specific commit SHA.
+    targetRevision: main
+    path: apps/demo/overlays/prod
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - PruneLast=true
+      - ServerSideApply=true
+
+

@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo
+  labels:
+    app.kubernetes.io/name: demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: demo
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: demo
+    spec:
+      containers:
+        - name: demo
+          image: ghcr.io/jonas-werner/kargo-argocd-lab-demo-app:0.1.0
+          ports:
+            - containerPort: 80
+
+

@@ -1,0 +1,46 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: demo-prod
+  namespace: kargo-demo
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: demo
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      steps:
+        - as: deploy-repo
+          uses: git-clone
+          config:
+            repoURL: https://github.com/jonas-werner/kargo-argocd-lab-demo-deploy.git
+            checkout:
+              - branch: main
+                create: false
+                path: git-demo-deploy
+        - uses: yaml-update
+          config:
+            path: git-demo-deploy/argocd/application-demo-prod.yaml
+            updates:
+              - key: spec.source.targetRevision
+                value: ${{commitFrom("https://github.com/jonas-werner/kargo-argocd-lab-demo-deploy.git", warehouse("demo")).ID}}
+        - uses: git-commit
+          config:
+            path: git-demo-deploy
+            author:
+              name: Kargo
+              email: kargo@example.invalid
+            message: |-
+              deploy(demo): promote demo-prod
+
+              stage:       demo-prod
+              deployCommit: ${{commitFrom("https://github.com/jonas-werner/kargo-argocd-lab-demo-deploy.git", warehouse("demo")).ID}}
+        - uses: git-push
+          config:
+            path: git-demo-deploy
+            targetBranch: main
+
+
