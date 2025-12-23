@@ -7,12 +7,14 @@ spec:
   freightCreationPolicy: Automatic
   interval: 1m0s
   subscriptions:
-    - git:
-        repoURL: https://github.com/jonas-werner/kargo-argocd-lab-demo-deploy.git
-        branch: main
-        commitSelectionStrategy: NewestFromBranch
-        discoveryLimit: 20
-        includePaths:
-          - apps/demo/overlays/prod
+    # This is the "classic" Kargo pattern:
+    # - CI publishes a new image tag (Freight)
+    # - Kargo detects it
+    # - Promotion updates the deploy repo to reference that tag
+    - image:
+        repoURL: ghcr.io/jonas-werner/kargo-argocd-lab-demo-app
+        # Only treat semver tags as eligible Freight.
+        # You can loosen/tighten this later (e.g., include prereleases).
+        semverConstraint: ">=0.0.0"
 
 

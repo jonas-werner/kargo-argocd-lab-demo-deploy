@@ -1,0 +1,8 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  # This is a cluster-scoped resource. The namespace label
+  # kargo.akuity.io/project=<name> must match this name.
+  name: kargo-demo
+
+

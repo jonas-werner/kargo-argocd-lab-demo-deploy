@@ -2,5 +2,9 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: kargo-demo
+  labels:
+    # Kargo "project namespace" label (enables adoption/association).
+    # Note: This is distinct from the Project name.
+    kargo.akuity.io/project: "true"
 
 

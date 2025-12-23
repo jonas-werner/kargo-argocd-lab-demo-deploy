@@ -21,12 +21,14 @@ spec:
               - branch: main
                 create: false
                 path: git-demo-deploy
+        # Update the deploy repo's desired state (classic GitOps flow).
+        # ArgoCD will notice the commit and sync.
         - uses: yaml-update
           config:
-            path: git-demo-deploy/argocd/application-demo-prod.yaml
+            path: git-demo-deploy/apps/demo/overlays/prod/kustomization.yaml
             updates:
-              - key: spec.source.targetRevision
-                value: ${{commitFrom("https://github.com/jonas-werner/kargo-argocd-lab-demo-deploy.git", warehouse("demo")).ID}}
+              - key: images[0].newTag
+                value: ${{imageFrom("ghcr.io/jonas-werner/kargo-argocd-lab-demo-app").Tag}}
         - uses: git-commit
           config:
             path: git-demo-deploy
@@ -37,7 +39,7 @@ spec:
               deploy(demo): promote demo-prod
 
               stage:       demo-prod
-              deployCommit: ${{commitFrom("https://github.com/jonas-werner/kargo-argocd-lab-demo-deploy.git", warehouse("demo")).ID}}
+              image:       ghcr.io/jonas-werner/kargo-argocd-lab-demo-app:${{imageFrom("ghcr.io/jonas-werner/kargo-argocd-lab-demo-app").Tag}}
         - uses: git-push
           config:
             path: git-demo-deploy
