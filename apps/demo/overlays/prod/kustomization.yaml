@@ -8,6 +8,6 @@ resources:
 
 images:
   - name: ghcr.io/jonas-werner/kargo-argocd-lab-demo-app
-    newTag: 0.1.0
+    newTag: 0.1.1
 
 
