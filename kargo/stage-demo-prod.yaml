@@ -27,7 +27,9 @@ spec:
           config:
             path: git-demo-deploy/apps/demo/overlays/prod/kustomization.yaml
             updates:
-              - key: images[0].newTag
+              # NOTE: yaml-update uses the same key-path syntax as json-update (sjson),
+              # so array indices use dot notation (images.0.newTag), not brackets.
+              - key: images.0.newTag
                 value: ${{imageFrom("ghcr.io/jonas-werner/kargo-argocd-lab-demo-app").Tag}}
         - uses: git-commit
           config:
