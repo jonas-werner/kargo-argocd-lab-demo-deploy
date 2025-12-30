@@ -21,16 +21,13 @@ spec:
               - branch: main
                 create: false
                 path: git-demo-deploy
-        # Update the deploy repo's desired state (classic GitOps flow).
-        # ArgoCD will notice the commit and sync.
+        # CoreWeave-style: pin the ArgoCD Application to the latest Warehouse commit SHA.
         - uses: yaml-update
           config:
-            path: git-demo-deploy/apps/demo/overlays/prod/kustomization.yaml
+            path: git-demo-deploy/argocd/application-demo-prod.yaml
             updates:
-              # NOTE: yaml-update uses the same key-path syntax as json-update (sjson),
-              # so array indices use dot notation (images.0.newTag), not brackets.
-              - key: images.0.newTag
-                value: ${{imageFrom("ghcr.io/jonas-werner/kargo-argocd-lab-demo-app").Tag}}
+              - key: spec.source.targetRevision
+                value: ${{commitFrom("https://github.com/jonas-werner/kargo-argocd-lab-demo-deploy.git", warehouse("demo")).ID}}
         - uses: git-commit
           config:
             path: git-demo-deploy
@@ -41,7 +38,8 @@ spec:
               deploy(demo): promote demo-prod
 
               stage:       demo-prod
-              image:       ghcr.io/jonas-werner/kargo-argocd-lab-demo-app:${{imageFrom("ghcr.io/jonas-werner/kargo-argocd-lab-demo-app").Tag}}
+              deployRepo:  kargo-argocd-lab-demo-deploy
+              commit:      ${{commitFrom("https://github.com/jonas-werner/kargo-argocd-lab-demo-deploy.git", warehouse("demo")).ID}}
         - uses: git-push
           config:
             path: git-demo-deploy

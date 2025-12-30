@@ -5,7 +5,7 @@ metadata:
   namespace: kargo-demo
 spec:
   promotionPolicies:
-    - autoPromotionEnabled: false
+    - autoPromotionEnabled: true
       stageSelector:
         name: demo-prod
 
