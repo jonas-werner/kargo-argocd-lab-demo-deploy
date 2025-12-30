@@ -21,7 +21,7 @@ spec:
               - branch: main
                 create: false
                 path: git-demo-deploy
-        # CoreWeave-style: pin the ArgoCD Application to the latest Warehouse commit SHA.
+        # Pin the ArgoCD Application to the latest Warehouse commit SHA.
         - uses: yaml-update
           config:
             path: git-demo-deploy/argocd/application-demo-prod.yaml

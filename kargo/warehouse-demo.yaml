@@ -7,7 +7,7 @@ spec:
   freightCreationPolicy: Automatic
   interval: 1m0s
   subscriptions:
-    # CoreWeave-style pattern (aligned with sa-argo-deploy):
+    # Git-as-Freight pattern:
     # - Warehouse detects new git commits in the deploy repo (Freight)
     # - Promotion pins ArgoCD's desired revision to that commit SHA
     - git:
