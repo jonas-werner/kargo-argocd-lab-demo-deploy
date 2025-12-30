@@ -15,6 +15,7 @@ spec:
         branch: main
         commitSelectionStrategy: NewestFromBranch
         discoveryLimit: 20
+        strictSemvers: true
         includePaths:
           - apps/demo
 
