@@ -11,7 +11,8 @@ spec:
     # - Warehouse detects new git commits in the deploy repo (Freight)
     # - Promotion pins ArgoCD's desired revision to that commit SHA
     - git:
-        repoURL: https://github.com/jonas-werner/kargo-argocd-lab-demo-deploy.git
+        repoURL: https://github.com/jonas-werner/kargo-argocd-lab-demo-app.git
+        semverConstraint: ">=0.0.0"
         branch: main
         commitSelectionStrategy: NewestFromBranch
         discoveryLimit: 20
