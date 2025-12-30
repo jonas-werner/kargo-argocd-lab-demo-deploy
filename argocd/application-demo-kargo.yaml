@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: demo-kargo
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    name: in-cluster
+    namespace: kargo-demo
+  source:
+    repoURL: https://github.com/jonas-werner/kargo-argocd-lab-demo-deploy.git
+    targetRevision: main
+    path: kargo
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - PruneLast=true
+      - ServerSideApply=true
+
+
