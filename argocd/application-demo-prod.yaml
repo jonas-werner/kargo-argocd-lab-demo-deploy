@@ -10,7 +10,7 @@ spec:
     namespace: demo
   source:
     repoURL: https://github.com/jonas-werner/kargo-argocd-lab-demo-deploy.git
-    targetRevision: main
+    targetRevision: 943368db0541b8e258a0d116d528a440f85298df
     path: apps/demo/overlays/prod
   syncPolicy:
     automated:
