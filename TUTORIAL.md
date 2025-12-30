@@ -144,6 +144,39 @@ kubectl create ns kargo-demo || true
 kubectl create ns demo || true
 ```
 
+### Create a Git credential Secret for Kargo (required for Part 1)
+
+Part 1 promotions **commit and push back** to the deploy repo. For that, Kargo needs Git credentials.
+
+Create a GitHub Personal Access Token (PAT) that can write to your **deploy repo** (for a public repo, `public_repo` is sufficient; for a private repo, use `repo`).
+
+Then create a Secret in the project namespace (`kargo-demo`) with a well-known label so Kargo can discover it:
+
+```bash
+export GITOPS_REPO_URL="https://github.com/<YOU>/kargo-argocd-lab-demo-deploy.git"
+export GITHUB_USERNAME="<YOU>"
+export GITHUB_PAT="<YOUR_PAT>"
+
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  name: kargo-demo-repo
+  namespace: kargo-demo
+  labels:
+    kargo.akuity.io/cred-type: git
+stringData:
+  repoURL: ${GITOPS_REPO_URL}
+  # For GitHub HTTPS auth with PATs, the username should be the GitHub handle
+  # of the user who created the token.
+  username: ${GITHUB_USERNAME}
+  password: ${GITHUB_PAT}
+EOF
+```
+
+If you previously created other git credential Secrets in the same namespace, remove them or ensure they target different `repoURL` values. Having multiple Secrets that all match the same repo can make credential selection ambiguous.
+
 ### Install ArgoCD
 Install ArgoCD using your preferred method (Helm, manifests, etc.). For Helm-based installs, follow the official ArgoCD Helm chart docs.
 
