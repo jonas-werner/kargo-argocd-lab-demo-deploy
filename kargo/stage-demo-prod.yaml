@@ -41,7 +41,7 @@ spec:
 
               stage:       demo-prod
               deployRepo:  kargo-argocd-lab-demo-deploy
-              commit:      ${{commitFrom("https://github.com/jonas-werner/kargo-argocd-lab-demo-deploy.git", warehouse("demo")).ID}}
+              image:       ghcr.io/jonas-werner/kargo-argocd-lab-demo-app:${{imageFrom("ghcr.io/jonas-werner/kargo-argocd-lab-demo-app").Tag}}
         - uses: git-push
           config:
             path: git-demo-deploy
