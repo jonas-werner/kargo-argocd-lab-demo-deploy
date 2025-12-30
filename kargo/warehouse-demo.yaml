@@ -9,8 +9,12 @@ spec:
   subscriptions:
     - image:
         repoURL: ghcr.io/jonas-werner/kargo-argocd-lab-demo-app
+        # These fields are defaulted by Kargo. Including them avoids ArgoCD
+        # repeatedly showing the Warehouse as OutOfSync due to defaulted values.
+        imageSelectionStrategy: SemVer
         # Only treat semver tags as eligible Freight.
         semverConstraint: ">=0.0.0"
         discoveryLimit: 20
+        strictSemvers: true
 
 
