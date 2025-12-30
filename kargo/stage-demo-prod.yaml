@@ -29,7 +29,7 @@ spec:
               # NOTE: yaml-update uses "sjson" key-path syntax.
               # Array indices are dot-separated (images.0.newTag), not bracket syntax.
               - key: images.0.newTag
-                value: ${{imageFrom("ghcr.io/<YOU>/kargo-argocd-lab-demo-app").Tag}}
+                value: ${{imageFrom("ghcr.io/jonas-werner/kargo-argocd-lab-demo-app").Tag}}
         - uses: git-commit
           config:
             path: git-demo-deploy

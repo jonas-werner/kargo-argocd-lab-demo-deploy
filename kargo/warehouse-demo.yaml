@@ -7,17 +7,10 @@ spec:
   freightCreationPolicy: Automatic
   interval: 1m0s
   subscriptions:
-    # Git-as-Freight pattern:
-    # - Warehouse detects new git commits in the deploy repo (Freight)
-    # - Promotion pins ArgoCD's desired revision to that commit SHA
-    - git:
-        repoURL: https://github.com/jonas-werner/kargo-argocd-lab-demo-app.git
+    - image:
+        repoURL: ghcr.io/jonas-werner/kargo-argocd-lab-demo-app
+        # Only treat semver tags as eligible Freight.
         semverConstraint: ">=0.0.0"
-        branch: main
-        commitSelectionStrategy: NewestFromBranch
         discoveryLimit: 20
-        strictSemvers: true
-        includePaths:
-          - apps/demo
 
 
